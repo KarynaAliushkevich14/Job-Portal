@@ -1,4 +1,4 @@
-package com.versus.www.entity;
+package com.squarejobs.www.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,21 +8,21 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Entity(name = "Company")
+@Entity
 @Table(
         name = "company"
 )
 public class Company {
 
     @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "company_sequence"
+    )
     @SequenceGenerator(
             name = "company_sequence",
             sequenceName = "company_sequence",
             allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "company_sequence"
     )
     @Column(
             name = "pk_company",
@@ -56,8 +56,9 @@ public class Company {
             columnDefinition = "TEXT"
     )
     private String brandStory;
-    @Column(name = "fk_account")
-    private Integer fkAccount;
+    @OneToOne
+    @JoinColumn(name = "pk_account") // -> указываем primary key для таблицы с которой связываем
+    private CompanyAccount companyAccount;
     @Column(
             name = "country",
             nullable = false,
@@ -87,17 +88,16 @@ public class Company {
     @Column(name = "nr_building")
     private Integer nrBuilding;
 
-    public Company(Long pkCompany, String companyName, Integer companySize, String nip, Date introductionDate, String state,
-                   String brandStory,  Integer fkAccount, String country, String province, String city, String street,
+    public Company(String companyName, Integer companySize, String nip, Date introductionDate, String state,
+                   String brandStory, CompanyAccount companyAccount, String country, String province, String city, String street,
                    Integer nrStreet, Integer nrBuilding) {
-        this.pkCompany = pkCompany;
         this.companyName = companyName;
         this.companySize = companySize;
         this.nip = nip;
         this.introductionDate = introductionDate;
         this.state = state;
         this.brandStory = brandStory;
-        this.fkAccount = fkAccount;
+        this.companyAccount = companyAccount;
         this.country = country;
         this.province = province;
         this.city = city;
@@ -109,3 +109,6 @@ public class Company {
     public Company() {
     }
 }
+/** Для владельца фирмы:
+ * впиши название фирмы
+ * */

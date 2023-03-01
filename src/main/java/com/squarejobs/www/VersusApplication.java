@@ -1,4 +1,4 @@
-package com.versus.www;
+package com.squarejobs.www;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
