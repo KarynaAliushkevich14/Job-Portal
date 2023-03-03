@@ -55,23 +55,7 @@ public class CompanyController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> saveNewCompanyInDB (@RequestBody Company inputCompany) {
         try {
-            if (inputCompany.getCompanyAccount() != null) { // если пользователь ввел данные новосозданного companyAccount
-                CompanyAccount companyAccount = new CompanyAccount(); // создаём companyAccount
-                companyAccount.setEmail(inputCompany.getCompanyAccount().getEmail());
-                companyAccount.setPassword(inputCompany.getCompanyAccount().getPassword());
-                companyAccount.setEmailStatus(inputCompany.getCompanyAccount().getEmailStatus());
-
-                companyAccount = companyAccountService.saveCompanyAccount(companyAccount); // ! save companyAccount
-
-                inputCompany.setCompanyAccount(companyAccount); // целая company.setCompanyAccount(companyAccount) - привязываем к компании аккаунтКомпании
-
-                //companyAccount.setCompany(newCompany); //  companyAccount привязываем к новому объекту Company newCompany
-
-
-            }
-            // Новая Компания. После того как создали CompanyAccount сначала. У нее есть fk_account.
             Company newCompany = companyService.saveCompany(inputCompany);
-
         } catch (CompanyIsAlreadyExistException ex) {
             log.error(ex.getMessage());
         }
