@@ -13,7 +13,6 @@ import java.util.Date;
         name = "company"
 )
 public class Company {
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -57,7 +56,7 @@ public class Company {
     )
     private String brandStory;
 
-    @OneToOne(mappedBy = "company") // -> означает что сущность CompanyAccount companyAccount связана с Company company @JoinColumn(name = "pk_company");
+    @OneToOne(mappedBy = "company"/**,(cascade=CascadeType.ALL)*/) // -> означает что сущность CompanyAccount companyAccount связана с Company company @JoinColumn(name = "pk_company");
     private CompanyAccount companyAccount;
     @Column(
             name = "country",
@@ -105,6 +104,10 @@ public class Company {
         this.nrBuilding = nrBuilding;
     }
 
+//    public Company (String companyName, String nip) {
+//        this.companyName = companyName;
+//        this.nip = nip;
+//    }
     public Company() {
     }
 }

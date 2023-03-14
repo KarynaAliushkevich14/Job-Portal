@@ -33,13 +33,13 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/getAllCompanies")
-    public ResponseEntity getAllCompanies (){
+    public ResponseEntity getAllCompanies () {
         List<Company> allCompanies = companyService.getAllCompanies();
         return ResponseEntity.ok(allCompanies);
     }
 
     @PostMapping(value = "/getCompany")
-    public ResponseEntity getCompanyByNip (@RequestBody String companyNip){
+    public ResponseEntity getCompanyByNip (@RequestBody String companyNip) {
         log.info("COMPANY_CONTROLLER - getCompany() - nip = " + companyNip);
         ResponseEntity entity = null;
         try {
