@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -58,6 +59,10 @@ public class Company {
 
     @OneToOne(mappedBy = "company"/**,(cascade=CascadeType.ALL)*/) // -> означает что сущность CompanyAccount companyAccount связана с Company company @JoinColumn(name = "pk_company");
     private CompanyAccount companyAccount;
+
+    @OneToMany(mappedBy = "company")
+    private List<Offer> offers;
+
     @Column(
             name = "country",
             nullable = true,

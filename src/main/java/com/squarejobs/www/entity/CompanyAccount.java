@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity //  используется для пометки класса как объекта, который должен быть сохранен в базе данных. Если не указать имя, то сущность будет называться CompanyAccount
@@ -49,8 +47,6 @@ public class CompanyAccount { // т.е. таблица company_account имее�
     @JoinColumn(name = "pk_company") // -> указываем primary key для таблицы с которой связываем
     private Company company;
 
-    @OneToMany(mappedBy = "companyAccount")
-    private List<Offer> offers;
 
     public CompanyAccount(String email, String password, int emailStatus, byte[] photo, Company company) {
         this.email = email;

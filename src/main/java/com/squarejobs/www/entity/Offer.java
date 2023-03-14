@@ -30,8 +30,8 @@ public class Offer {
     private Long pkOffer;
 
     @ManyToOne
-    @JoinColumn(name="pk_account")
-    private CompanyAccount companyAccount;
+    @JoinColumn(name="pk_company")
+    private Company company;
     @Column(
             name = "offer_name",
             nullable = false,

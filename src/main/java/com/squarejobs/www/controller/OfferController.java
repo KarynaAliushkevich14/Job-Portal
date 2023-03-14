@@ -1,9 +1,9 @@
 package com.squarejobs.www.controller;
 
-import com.squarejobs.www.entity.CompanyAccount;
+import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.entity.Offer;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
-import com.squarejobs.www.service.CompanyAccountService;
+import com.squarejobs.www.service.CompanyService;
 import com.squarejobs.www.service.OfferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +21,12 @@ public class OfferController {
     private static final Logger log =  LoggerFactory.getLogger(OfferController.class);
 
     private final OfferService offerService;
-    private final CompanyAccountService companyAccountService;
+    private final CompanyService companyService;
 
     @Autowired
-    public OfferController(OfferService offerService, CompanyAccountService companyAccountService) {
+    public OfferController(OfferService offerService, CompanyService companyService) {
         this.offerService = offerService;
-        this.companyAccountService = companyAccountService;
+        this.companyService = companyService;
     }
 
     @PostMapping(value="/saveOffer",
@@ -35,16 +35,15 @@ public class OfferController {
     public ResponseEntity<HttpStatus> saveOffer (@RequestBody Offer inputOffer) {
         try {
             // проверка из Сессии, что это тот CompanyAccount который нам нужен
-            CompanyAccount companyAccount = new CompanyAccount();
-            /**ПОКА ЧТО УСТАНОВЛЮ В РУЧНУЮ EMAIL NIP, НО ПОСЛЕ SESSION ДОЛЖЕН ВПИХИВАТЬ ЭТИ ПОЛЯ*/
-            companyAccount.setEmail("newCompanyAccount@gmail.com");
-            companyAccount.setPassword("password123");
-            companyAccount = companyAccountService.saveCompanyAccount(companyAccount);
+            Company company = new Company();
+            /**ПОКА ЧТО УСТАНОВЛЮ В РУЧНУЮ CompanyName, Nip, НО ПОСЛЕ SESSION ДОЛЖЕН ВПИХИВАТЬ ЭТИ ПОЛЯ*/
+            company.setCompanyName("Google");
+            company.setNip("000-000-000");
+            company = companyService.saveCompany(company);
 
+            inputOffer.setCompany(company);
 
-            inputOffer.setCompanyAccount(companyAccount);
-
-            Offer newOffer = offerService.saveOffer(inputOffer);
+            offerService.saveOffer(inputOffer);
         } catch (CompanyIsAlreadyExistException ex) {
             log.error(ex.getMessage());
         }
