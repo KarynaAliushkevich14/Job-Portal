@@ -43,14 +43,17 @@ public class CompanyAccount { // т.е. таблица company_account имее�
     //@Lob
     @Column(name = "photo")
     private byte[] photo;
-    @OneToOne(mappedBy = "companyAccount") // -> означает что сущность Company company связана с CompanyAccount companyAccount @JoinColumn(name = "person_id");
+    @OneToOne(fetch = FetchType.LAZY) /**(cascade= CascadeType.ALL)*/
+    @JoinColumn(name = "pk_company") // -> указываем primary key для таблицы с которой связываем
     private Company company;
 
-    public CompanyAccount(String email, String password, int emailStatus, byte[] photo) {
+
+    public CompanyAccount(String email, String password, int emailStatus, byte[] photo, Company company) {
         this.email = email;
         this.password = password;
         this.emailStatus = emailStatus;
         this.photo = photo;
+        this.company = company;
     }
 
     public CompanyAccount() {

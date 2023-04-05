@@ -1,8 +1,10 @@
 package com.squarejobs.www.controller;
 
+import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.entity.CompanyAccount;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
 import com.squarejobs.www.service.CompanyAccountService;
+import com.squarejobs.www.service.CompanyService;
 import com.squarejobs.www.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,20 +16,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class CompanyAccountController {
     private static final Logger log =  LoggerFactory.getLogger(CompanyAccountController.class);
 
     private final CompanyAccountService companyAccountService;
+    private final CompanyService companyService;
 
     @Autowired
-    public CompanyAccountController (CompanyAccountService companyAccountService) {
+    public CompanyAccountController (CompanyAccountService companyAccountService, CompanyService companyService) {
         this.companyAccountService = companyAccountService;
+        this.companyService = companyService;
+    }
+
+    @GetMapping(value="/getAllCompanyAccounts")
+    public ResponseEntity<List<CompanyAccount>> getAllEmployees() {
+        List<CompanyAccount> listOfCompanyAccounts = companyAccountService.findAllCompanyAccounts();
+        return ResponseEntity.ok(listOfCompanyAccounts);
     }
 
     @PostMapping(value="/saveCompanyAccount", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HttpStatus> saveNewCompanyAccountInDB (@ModelAttribute  CompanyAccount companyAccount,
+    public ResponseEntity<HttpStatus> saveNewCompanyAccountInDB (@ModelAttribute CompanyAccount companyAccount,
                                                                  @RequestParam("file") MultipartFile file) {
         try {
             CompanyAccount newCompanyAccount = new CompanyAccount();
@@ -35,6 +46,16 @@ public class CompanyAccountController {
             newCompanyAccount.setPassword(companyAccount.getPassword());
             newCompanyAccount.setEmailStatus(companyAccount.getEmailStatus());
             newCompanyAccount.setPhoto(CommonUtils.convertMultipartFileToBytes(file));
+
+            if (companyAccount.getCompany() != null) {
+                Company company = new Company();
+                company.setCompanyName(companyAccount.getCompany().getCompanyName());
+                company.setNip(companyAccount.getCompany().getNip());
+                //save in DB
+                company = companyService.saveCompany(company);
+                // set company to companyAccount
+                newCompanyAccount.setCompany(company);
+            }
             companyAccountService.saveCompanyAccount(newCompanyAccount);
             return ResponseEntity.ok(HttpStatus.CREATED);
         } catch (CompanyIsAlreadyExistException | IOException ex) {

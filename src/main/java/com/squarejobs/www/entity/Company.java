@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +14,6 @@ import java.util.Date;
         name = "company"
 )
 public class Company {
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -46,40 +46,46 @@ public class Company {
     private Date introductionDate;
     @Column(
             name = "state",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String state;
     @Column(
             name = "brand_story",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String brandStory;
-    @OneToOne
-    @JoinColumn(name = "pk_account") // -> указываем primary key для таблицы с которой связываем
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade=CascadeType.ALL,
+            mappedBy = "company"
+            ) // -> означает что сущность CompanyAccount companyAccount связана с Company company @JoinColumn(name = "pk_company");
     private CompanyAccount companyAccount;
+
+    @OneToMany(mappedBy = "company")
+    private List<Offer> offers;
+
     @Column(
             name = "country",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String country;
     @Column(
             name = "province",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String province;
     @Column(
             name = "city",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String city;
     @Column(
             name = "street",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String street;
@@ -89,7 +95,7 @@ public class Company {
     private Integer nrBuilding;
 
     public Company(String companyName, Integer companySize, String nip, Date introductionDate, String state,
-                   String brandStory, CompanyAccount companyAccount, String country, String province, String city, String street,
+                   String brandStory, String country, String province, String city, String street,
                    Integer nrStreet, Integer nrBuilding) {
         this.companyName = companyName;
         this.companySize = companySize;
@@ -97,7 +103,6 @@ public class Company {
         this.introductionDate = introductionDate;
         this.state = state;
         this.brandStory = brandStory;
-        this.companyAccount = companyAccount;
         this.country = country;
         this.province = province;
         this.city = city;
@@ -109,6 +114,3 @@ public class Company {
     public Company() {
     }
 }
-/** Для владельца фирмы:
- * впиши название фирмы
- * */
