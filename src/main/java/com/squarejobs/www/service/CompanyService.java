@@ -18,6 +18,7 @@ public class CompanyService {
     private static final Logger log = Logger.getLogger(CompanyService.class.getName());
     private final CompanyRepo companyRepo;
 
+
     @Autowired
     public CompanyService(CompanyRepo companyRepo) {
         this.companyRepo = companyRepo;
@@ -27,20 +28,23 @@ public class CompanyService {
         return (List<Company>) companyRepo.findAll();
     }
 
-    public Optional getCompanyByNip (String nip) throws IOException {
-        Optional companyOptional = companyRepo.findCompanyByNip(nip);
+    public Company getCompanyByNip (String nip) throws IOException {
+        Optional companyOptional = Optional.of(companyRepo.findCompanyByNip(nip));
         if (companyOptional.isPresent()) {
             log.info("COMPNY IS PRESENT ALREADY");
             throw new IllegalStateException("Chosen company doesn't exists");
+        } else {
+            return companyRepo.findCompanyByNip(nip);
         }
-        return companyOptional;
+    }
+
+    public Company getCompanyByNipLaterDelete (String nip) throws IOException {
+       return companyRepo.findCompanyByNipLaterDelete(nip);
     }
 
     public Company saveCompany (Company company) {
-        Optional pulledCompany = companyRepo.findCompanyByNip(company.getNip());
         Company savedCompany = null;
-        log.info("pulledCompany.isPresent() = " + pulledCompany.isPresent());
-        if (!pulledCompany.isPresent()) {
+        if (companyRepo.findAll().isEmpty() || !companyRepo.findAll().contains(company)) {
             savedCompany = companyRepo.save(company);
         } else {
             throw new CompanyIsAlreadyExistException("Company is already exist in DB");

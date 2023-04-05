@@ -1,7 +1,9 @@
 package com.squarejobs.www.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(
         name = "offer"
 )
@@ -28,7 +32,6 @@ public class Offer {
             updatable = false
     )
     private Long pkOffer;
-
     @ManyToOne
     @JoinColumn(name="pk_company")
     private Company company;

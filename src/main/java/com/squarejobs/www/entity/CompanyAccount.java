@@ -43,7 +43,7 @@ public class CompanyAccount { // т.е. таблица company_account имее�
     //@Lob
     @Column(name = "photo")
     private byte[] photo;
-    @OneToOne /**(cascade= CascadeType.ALL)*/
+    @OneToOne(fetch = FetchType.LAZY) /**(cascade= CascadeType.ALL)*/
     @JoinColumn(name = "pk_company") // -> указываем primary key для таблицы с которой связываем
     private Company company;
 
@@ -55,10 +55,6 @@ public class CompanyAccount { // т.е. таблица company_account имее�
         this.photo = photo;
         this.company = company;
     }
-
-//    public CompanyAccount (Company company) {
-//        this.company = company;
-//    }
 
     public CompanyAccount() {
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class CompanyAccountController {
@@ -30,8 +31,14 @@ public class CompanyAccountController {
         this.companyService = companyService;
     }
 
+    @GetMapping(value="/getAllCompanyAccounts")
+    public ResponseEntity<List<CompanyAccount>> getAllEmployees() {
+        List<CompanyAccount> listOfCompanyAccounts = companyAccountService.findAllCompanyAccounts();
+        return ResponseEntity.ok(listOfCompanyAccounts);
+    }
+
     @PostMapping(value="/saveCompanyAccount", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HttpStatus> saveNewCompanyAccountInDB (@ModelAttribute  CompanyAccount companyAccount,
+    public ResponseEntity<HttpStatus> saveNewCompanyAccountInDB (@ModelAttribute CompanyAccount companyAccount,
                                                                  @RequestParam("file") MultipartFile file) {
         try {
             CompanyAccount newCompanyAccount = new CompanyAccount();
