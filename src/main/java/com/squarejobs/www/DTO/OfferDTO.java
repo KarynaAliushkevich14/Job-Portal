@@ -1,19 +1,22 @@
 package com.squarejobs.www.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.squarejobs.www.entity.Company;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+//@ToString -  возвращает строковое представление объекта, которое может быть использовано для вывода информации об объекте в логи. Lombok сгенерирует метод toString(), который будет включать все поля объекта и их значения в строковом представлении.
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfferDTO {
-//    @JsonProperty("pk_offer")
-//    private Long pkOfferDto;
-//    @JsonProperty("company")
-//    private Company company;
+    @JsonProperty("pk_offer")
+    private Long pkOfferDto;
+    @JsonProperty("company")
+    private Long companyId;
     @JsonProperty("offer_name")
     private String offerName;
     @JsonProperty("city")
