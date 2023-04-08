@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Company {
             columnDefinition = "TEXT")
     private String nip;
     @Column(name = "introduction_date")
-    private Date introductionDate;
+    private LocalDateTime introductionDate;
     @Column(
             name = "state",
             nullable = true,
@@ -94,7 +95,7 @@ public class Company {
     @Column(name = "nr_building")
     private Integer nrBuilding;
 
-    public Company(String companyName, Integer companySize, String nip, Date introductionDate, String state,
+    public Company(String companyName, Integer companySize, String nip, LocalDateTime introductionDate, String state,
                    String brandStory, String country, String province, String city, String street,
                    Integer nrStreet, Integer nrBuilding) {
         this.companyName = companyName;
