@@ -2,10 +2,14 @@ package com.squarejobs.www.service;
 
 import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
+import com.squarejobs.www.exceptions.NipIsAlreadyInDBException;
+import com.squarejobs.www.exceptions.RequiredCompanyFieldsCouldntBeNullException;
 import com.squarejobs.www.repo.CompanyRepo;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import com.squarejobs.www.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +46,12 @@ public class CompanyService {
        return companyRepo.findCompanyByNipLaterDelete(nip);
     }
 
-    public Company saveCompany (Company company) {
+    public Company saveCompany (Company company) throws RequiredCompanyFieldsCouldntBeNullException, NipIsAlreadyInDBException {
         Company savedCompany = null;
-        if (companyRepo.findAll().isEmpty() || !companyRepo.findAll().contains(company)) {
+        // добавь обработку исключения когда nip не unique
+        if (companyRepo.findAll().isEmpty() || !companyRepo.findAll().contains(company) ) {
+            company.setIntroductionDate(CommonUtils.getCurrentTime());
+            CommonUtils.checkIfRequiredCompanyFieldsAreEmpty(company);
             savedCompany = companyRepo.save(company);
         } else {
             throw new CompanyIsAlreadyExistException("Company is already exist in DB");

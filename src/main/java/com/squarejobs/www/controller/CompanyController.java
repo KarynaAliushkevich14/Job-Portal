@@ -1,8 +1,9 @@
 package com.squarejobs.www.controller;
 
 import com.squarejobs.www.entity.Company;
-import com.squarejobs.www.entity.CompanyAccount;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
+import com.squarejobs.www.exceptions.NipIsAlreadyInDBException;
+import com.squarejobs.www.exceptions.RequiredCompanyFieldsCouldntBeNullException;
 import com.squarejobs.www.service.CompanyAccountService;
 import com.squarejobs.www.service.CompanyService;
 import org.slf4j.Logger;
@@ -56,9 +57,11 @@ public class CompanyController {
     public ResponseEntity<HttpStatus> saveNewCompanyInDB (@RequestBody Company inputCompany) {
         try {
             Company newCompany = companyService.saveCompany(inputCompany);
-        } catch (CompanyIsAlreadyExistException ex) {
+            return ResponseEntity.ok(HttpStatus.CREATED);
+        } catch (CompanyIsAlreadyExistException | RequiredCompanyFieldsCouldntBeNullException |
+                 NipIsAlreadyInDBException ex) {
             log.error(ex.getMessage());
         }
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok(HttpStatus.CONFLICT);
     }
 }

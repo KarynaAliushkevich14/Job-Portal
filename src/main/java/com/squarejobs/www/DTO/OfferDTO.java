@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -34,7 +35,7 @@ public class OfferDTO {
     @JsonProperty("contract")
     private String contract;
     @JsonProperty("introduction_date")
-    private LocalDateTime introductionDate;
+    private Date introductionDateDto;
     @JsonProperty("photo_background")
     private byte[] photoBackground;
     @JsonProperty("technology")

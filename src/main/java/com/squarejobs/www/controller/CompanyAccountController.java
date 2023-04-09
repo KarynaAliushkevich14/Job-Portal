@@ -3,6 +3,8 @@ package com.squarejobs.www.controller;
 import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.entity.CompanyAccount;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
+import com.squarejobs.www.exceptions.NipIsAlreadyInDBException;
+import com.squarejobs.www.exceptions.RequiredCompanyFieldsCouldntBeNullException;
 import com.squarejobs.www.service.CompanyAccountService;
 import com.squarejobs.www.service.CompanyService;
 import com.squarejobs.www.utils.CommonUtils;
@@ -58,7 +60,8 @@ public class CompanyAccountController {
             }
             companyAccountService.saveCompanyAccount(newCompanyAccount);
             return ResponseEntity.ok(HttpStatus.CREATED);
-        } catch (CompanyIsAlreadyExistException | IOException ex) {
+        } catch (CompanyIsAlreadyExistException | IOException | RequiredCompanyFieldsCouldntBeNullException |
+                 NipIsAlreadyInDBException ex) {
             log.error(ex.getMessage());
             return ResponseEntity.ok(HttpStatus.CONFLICT);
         }

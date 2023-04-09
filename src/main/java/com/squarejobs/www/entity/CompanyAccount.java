@@ -3,9 +3,11 @@ package com.squarejobs.www.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity //  используется для пометки класса как объекта, который должен быть сохранен в базе данных. Если не указать имя, то сущность будет называться CompanyAccount
 @Table(
         name = "company_account"  // имя таблицы, которая будет использоваться для хранения объектов этого класса в базе данных

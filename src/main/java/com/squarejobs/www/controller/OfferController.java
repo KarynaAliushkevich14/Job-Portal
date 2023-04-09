@@ -7,6 +7,7 @@ import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
 import com.squarejobs.www.mapper.MapStructMapper;
 import com.squarejobs.www.service.CompanyService;
 import com.squarejobs.www.service.OfferService;
+import com.squarejobs.www.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class OfferController {
     @GetMapping(value="/getOffer/{city}")
     public ResponseEntity<OfferDTO> getOffer (@PathVariable String city) {
         OfferDTO offerDTO = mapStructMapper.toOfferDTO(offerService.findOfferByOfferCity(city));
-        log.info("offerDTO.city= " + offerDTO.getCity());
+        log.info("CURRENT TIME= " + CommonUtils.getCurrentTime());
         return ResponseEntity.ok(offerDTO);
     }
 
@@ -59,6 +60,9 @@ public class OfferController {
             inputOffer.getCompany().setCompanyName(BIGCompany.getCompanyName());
             inputOffer.getCompany().setNip(BIGCompany.getNip());
             inputOffer.getCompany().setPkCompany(BIGCompany.getPkCompany());
+            inputOffer.getCompany().setIntroductionDate(CommonUtils.getCurrentTime());
+
+            inputOffer.setIntroductionDate(CommonUtils.getCurrentTime());
 
             offerService.saveOffer(inputOffer);
         } catch (CompanyIsAlreadyExistException | IOException ex) {
