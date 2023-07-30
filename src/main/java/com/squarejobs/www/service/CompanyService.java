@@ -32,15 +32,6 @@ public class CompanyService {
         return (List<Company>) companyRepo.findAll();
     }
 
-    public Company getCompanyByNip (String nip) throws IOException {
-        Optional companyOptional = Optional.of(companyRepo.findCompanyByNip(nip));
-        if (companyOptional.isPresent()) {
-            log.info("COMPNY IS PRESENT ALREADY");
-            throw new IllegalStateException("Chosen company doesn't exists");
-        } else {
-            return companyRepo.findCompanyByNip(nip);
-        }
-    }
 
     public Company getCompanyByNipLaterDelete (String nip) throws IOException {
        return companyRepo.findCompanyByNipLaterDelete(nip);
@@ -51,6 +42,9 @@ public class CompanyService {
         // добавь обработку исключения когда nip не unique
         if (companyRepo.findAll().isEmpty() || !companyRepo.findAll().contains(company) ) {
             company.setIntroductionDate(CommonUtils.getCurrentTime());
+            log.info("KARYNA: state= "+ company.getState() + " companySize= " + company.getCompanySize() + " introductionDate= " + company.getIntroductionDate()
+                    + " nrBuilding= " +  company.getNrBuilding() + " nrStreet= " + company.getNrStreet() + " province= " + company.getProvince() + " state= " + company.getState() + " street= " + company.getStreet()
+                    + " country= " + company.getCountry() + " city= " + company.getCity() + " nip= " + company.getNip());
             CommonUtils.checkIfRequiredCompanyFieldsAreEmpty(company);
             savedCompany = companyRepo.save(company);
         } else {

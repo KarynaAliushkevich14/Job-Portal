@@ -49,10 +49,19 @@ public class CompanyAccountController {
             newCompanyAccount.setEmailStatus(companyAccount.getEmailStatus());
             newCompanyAccount.setPhoto(CommonUtils.convertMultipartFileToBytes(file));
 
+            // добавить исключение чтобы поля company были заполнены, иначе в БД для companyAccount не привязывает company
             if (companyAccount.getCompany() != null) {
                 Company company = new Company();
                 company.setCompanyName(companyAccount.getCompany().getCompanyName());
                 company.setNip(companyAccount.getCompany().getNip());
+                company.setState(companyAccount.getCompany().getState());
+                company.setCompanySize(companyAccount.getCompany().getCompanySize());
+                company.setNrBuilding(companyAccount.getCompany().getNrBuilding());
+                company.setNrStreet(companyAccount.getCompany().getNrStreet());
+                company.setCountry(companyAccount.getCompany().getCountry());
+                company.setProvince(companyAccount.getCompany().getProvince());
+                company.setCity(companyAccount.getCompany().getCity());
+                company.setStreet(companyAccount.getCompany().getStreet());
                 //save in DB
                 company = companyService.saveCompany(company);
                 // set company to companyAccount

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompanyRepo extends JpaRepository <Company, Long> {
 
-    @Query("SELECT c FROM Company c WHERE c.nip = :nip")
-    Company findCompanyByNip (@Param("nip") String nip);
 
     @Query("SELECT c FROM Company c WHERE c.nip = :nip")
     Company findCompanyByNipLaterDelete (@Param("nip") String nip);

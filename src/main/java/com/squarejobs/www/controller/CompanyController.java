@@ -39,17 +39,6 @@ public class CompanyController {
         return ResponseEntity.ok(allCompanies);
     }
 
-    @PostMapping(value = "/getCompany")
-    public ResponseEntity getCompanyByNip (@RequestBody String companyNip) {
-        log.info("COMPANY_CONTROLLER - getCompany() - nip = " + companyNip);
-        ResponseEntity entity = null;
-        try {
-           entity = ResponseEntity.ok(companyService.getCompanyByNip(companyNip));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-        return entity;
-    }
 
     @PostMapping(value="/saveCompany",
             consumes = MediaType.APPLICATION_JSON_VALUE,

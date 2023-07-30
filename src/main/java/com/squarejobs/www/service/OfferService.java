@@ -33,7 +33,7 @@ public class OfferService {
 
     public Offer saveOffer (Offer offer) {
         Offer savedOffer = null;
-        if (offerRepo.findAll().isEmpty() || !offerRepo.findAll().contains(offer) /* Второе условие не защищает от повторной вставки*/) {
+        if (offerRepo.findAll().isEmpty() || !offerRepo.findAll().contains(offer) /* Второе условие не защищает от повторной вставки. Нужно сделать так чтобы повторно нельзя было добавить оффер */) {
             savedOffer = offerRepo.save(offer);
         } else {
             throw new OfferIsAlreadyExistException("Offer is already exist in DB");
