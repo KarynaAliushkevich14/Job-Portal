@@ -39,7 +39,6 @@ public class OfferController {
     @GetMapping(value="/getOffer/{city}")
     public ResponseEntity<OfferDTO> getOffer (@PathVariable String city) {
         OfferDTO offerDTO = mapStructMapper.toOfferDTO(offerService.findOfferByOfferCity(city));
-        log.info("CURRENT TIME= " + CommonUtils.getCurrentTime());
         return ResponseEntity.ok(offerDTO);
     }
 
