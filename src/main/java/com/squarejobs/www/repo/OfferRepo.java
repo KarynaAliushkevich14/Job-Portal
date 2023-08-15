@@ -18,6 +18,9 @@ public interface OfferRepo extends JpaRepository <Offer, Long> {
     @Query("SELECT o FROM Offer o WHERE o.city = :city")
     public Offer findOfferByOfferCity(@Param("city") String city);
 
+    @Query("SELECT o FROM Offer o JOIN o.technologies t WHERE t.technologyName = :technology")
+    public List<Offer> findOffersByTechnology (@Param("technology") String technology);
+
     Offer save(Offer offer);
     //@Query("SELECT o FROM Offer o")
     List<Offer> findAll();

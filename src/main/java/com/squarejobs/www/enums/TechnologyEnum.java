@@ -1,6 +1,6 @@
 package com.squarejobs.www.enums;
 
-public enum Technology {
+public enum TechnologyEnum {
     JAVA,
     PYTHON,
     JAVASCRIPT,

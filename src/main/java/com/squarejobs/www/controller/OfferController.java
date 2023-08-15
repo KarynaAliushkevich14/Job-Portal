@@ -42,6 +42,12 @@ public class OfferController {
         return ResponseEntity.ok(offerDTO);
     }
 
+    @GetMapping(value="/getOffers/{technology}")
+    public ResponseEntity<List<OfferDTO>> getOffersByTechnology (@PathVariable String technology) {
+        List <OfferDTO> offerDTOSByTechnology = mapStructMapper.toOfferDTOs(offerService.findOffersByTechnology(technology));
+        return ResponseEntity.ok(offerDTOSByTechnology);
+    }
+
     @GetMapping(value="/getAllOffers")
     public ResponseEntity<List<OfferDTO>> getAllOffers () {
         List<OfferDTO> offerDTOs = mapStructMapper.toOfferDTOs(offerService.findAllOffers());
@@ -53,7 +59,7 @@ public class OfferController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> saveOffer (@RequestBody Offer inputOffer) {
         try {
-            // проверка из Сессии, что это тот CompanyAccount который нам нужен
+            // проверка из Сессии, что это тот Company которая нам нужна
             /**ПОКА ЧТО УСТАНОВЛЮ В РУЧНУЮ CompanyName, Nip, НО ПОСЛЕ SESSION ДОЛЖЕН ВПИХИВАТЬ ЭТИ ПОЛЯ*/
             Company BIGCompany = companyService.getCompanyByNipLaterDelete("00000001");
             inputOffer.getCompany().setCompanyName(BIGCompany.getCompanyName());

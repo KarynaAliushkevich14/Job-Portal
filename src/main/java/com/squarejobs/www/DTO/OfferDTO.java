@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -52,4 +51,6 @@ public class OfferDTO {
     private String companyBenefits;
     @JsonProperty("company_facilities")
     private String companyFacilities;
+    @JsonProperty("offer_tech")
+    private List<TechnologyDTO> technologies; // эти данные беруться из кросс - таблицы
 }

@@ -26,6 +26,12 @@ public class OfferService {
         return offer;
     }
 
+    public List<Offer> findOffersByTechnology(String technology) {
+        List<Offer> offersByTechnology = offerRepo.findOffersByTechnology (technology);
+        // проблема с С#. Проверь в Postman
+        return offersByTechnology;
+    }
+
     public List<Offer> findAllOffers() {
         List<Offer> offers = offerRepo.findAll();
         return offers;
