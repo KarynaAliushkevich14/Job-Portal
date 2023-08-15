@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,6 +40,12 @@ public class Offer {
             columnDefinition = "TEXT"
     )
     private String offerName;
+    @ManyToMany
+    @JoinTable(
+            name = "offer_tech",
+            joinColumns = @JoinColumn(name = "fk_offer"),
+            inverseJoinColumns = @JoinColumn(name = "fk_technology"))
+    private List<Technology> technologies;
     @Column(
             name = "city",
             nullable = false,
@@ -86,12 +93,6 @@ public class Offer {
     private LocalDateTime introductionDate;
     @Column(name = "photo_background")
     private byte[] photoBackground;
-    @Column(
-            name = "technology",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String technology;
     @Column(
             name = "project_description",
             nullable = true,
