@@ -29,9 +29,9 @@ public class CompanyService {
     }
 
     public List<Company> getAllCompanies() {
+        log.info("LOGGER: getAllCities: " + companyRepo.findAll());
         return (List<Company>) companyRepo.findAll();
     }
-
 
     public Company getCompanyByNipLaterDelete (String nip) throws IOException {
        return companyRepo.findCompanyByNipLaterDelete(nip);

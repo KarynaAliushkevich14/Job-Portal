@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString
+//@ToString
 @Table(
         name = "company"
 )
@@ -61,11 +61,11 @@ public class Company {
     private String brandStory;
     @OneToOne(fetch = FetchType.LAZY,
             cascade=CascadeType.ALL,
-            mappedBy = "company"
+            mappedBy = "company" // связана с таблицей company
             ) // -> означает что сущность CompanyAccount companyAccount связана с Company company @JoinColumn(name = "pk_company");
     private CompanyAccount companyAccount;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company") // pk_company взята с таблицы company
     private List<Offer> offers;
 
     @Column(

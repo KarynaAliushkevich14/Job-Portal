@@ -1,10 +1,12 @@
 package com.squarejobs.www.controller;
 
+import com.squarejobs.www.DTO.CompanyAccountDTO;
 import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.entity.CompanyAccount;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
 import com.squarejobs.www.exceptions.NipIsAlreadyInDBException;
 import com.squarejobs.www.exceptions.RequiredCompanyFieldsCouldntBeNullException;
+import com.squarejobs.www.mapper.MapStructMapper;
 import com.squarejobs.www.service.CompanyAccountService;
 import com.squarejobs.www.service.CompanyService;
 import com.squarejobs.www.utils.CommonUtils;
@@ -34,9 +36,9 @@ public class CompanyAccountController {
     }
 
     @GetMapping(value="/getAllCompanyAccounts")
-    public ResponseEntity<List<CompanyAccount>> getAllEmployees() {
-        List<CompanyAccount> listOfCompanyAccounts = companyAccountService.findAllCompanyAccounts();
-        return ResponseEntity.ok(listOfCompanyAccounts);
+    public ResponseEntity<List<CompanyAccountDTO>> getAllEmployees() {
+        List<CompanyAccountDTO> listOfCompanyAccountDTOs = MapStructMapper.INSTANCE.toCompanyAccountDTOs(companyAccountService.findAllCompanyAccounts());
+        return ResponseEntity.ok(listOfCompanyAccountDTOs);
     }
 
     @PostMapping(value="/saveCompanyAccount", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
