@@ -15,7 +15,7 @@ import java.util.List;
 public class OfferDTO {
     @JsonProperty("pk_offer")
     private Long pkOfferDto;
-    @JsonProperty("company")
+    @JsonProperty("company") // fk_company
     private Long companyId;
     @JsonProperty("offer_name")
     private String offerName;
@@ -41,8 +41,8 @@ public class OfferDTO {
     private String technology;
     @JsonProperty("project_description")
     private String projectDescription;
-    @JsonProperty("requirenments")
-    private String requirenments;
+    @JsonProperty("requirenments") // n zbedna
+    private String requirenments; // n zbedna
     @JsonProperty("company_offers")
     private String companyOffers;
     @JsonProperty("additional_info")
@@ -51,6 +51,6 @@ public class OfferDTO {
     private String companyBenefits;
     @JsonProperty("company_facilities")
     private String companyFacilities;
-    @JsonProperty("offer_tech")
+    @JsonProperty("offer_tech") // technologies
     private List<TechnologyDTO> technologies; // эти данные беруться из кросс - таблицы
 }

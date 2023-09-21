@@ -1,9 +1,11 @@
 package com.squarejobs.www.controller;
 
+import com.squarejobs.www.DTO.CompanyDTO;
 import com.squarejobs.www.entity.Company;
 import com.squarejobs.www.exceptions.CompanyIsAlreadyExistException;
 import com.squarejobs.www.exceptions.NipIsAlreadyInDBException;
 import com.squarejobs.www.exceptions.RequiredCompanyFieldsCouldntBeNullException;
+import com.squarejobs.www.mapper.MapStructMapper;
 import com.squarejobs.www.service.CompanyAccountService;
 import com.squarejobs.www.service.CompanyService;
 import org.slf4j.Logger;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,7 @@ public class CompanyController {
     private final CompanyService companyService;
     private final CompanyAccountService companyAccountService;
 
+
     @Autowired
     public CompanyController(CompanyService companyService, CompanyAccountService companyAccountService) {
         this.companyService = companyService;
@@ -34,9 +36,9 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/getAllCompanies")
-    public ResponseEntity getAllCompanies () {
-        List<Company> allCompanies = companyService.getAllCompanies();
-        return ResponseEntity.ok(allCompanies);
+    public ResponseEntity<List<CompanyDTO>> getAllCompanies () {
+        List<CompanyDTO> allDTOsCompanies = MapStructMapper.INSTANCE.toCompanyDTOs(companyService.getAllCompanies());
+        return ResponseEntity.ok(allDTOsCompanies);
     }
 
 

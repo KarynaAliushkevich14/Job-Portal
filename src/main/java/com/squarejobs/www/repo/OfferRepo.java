@@ -22,6 +22,5 @@ public interface OfferRepo extends JpaRepository <Offer, Long> {
     public List<Offer> findOffersByTechnology (@Param("technology") String technology);
 
     Offer save(Offer offer);
-    //@Query("SELECT o FROM Offer o")
     List<Offer> findAll();
 }

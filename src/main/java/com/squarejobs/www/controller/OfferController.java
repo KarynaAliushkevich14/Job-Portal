@@ -26,31 +26,29 @@ public class OfferController {
 
     private final OfferService offerService;
     private final CompanyService companyService;
-    private final MapStructMapper mapStructMapper;
 
 
     @Autowired
-    public OfferController(OfferService offerService, CompanyService companyService, MapStructMapper mapStructMapper) {
+    public OfferController(OfferService offerService, CompanyService companyService) {
         this.offerService = offerService;
         this.companyService = companyService;
-        this.mapStructMapper = mapStructMapper;
     }
 
     @GetMapping(value="/getOffer/{city}")
     public ResponseEntity<OfferDTO> getOffer (@PathVariable String city) {
-        OfferDTO offerDTO = mapStructMapper.toOfferDTO(offerService.findOfferByOfferCity(city));
+        OfferDTO offerDTO = MapStructMapper.INSTANCE.toOfferDTO(offerService.findOfferByOfferCity(city));
         return ResponseEntity.ok(offerDTO);
     }
 
     @GetMapping(value="/getOffers/{technology}")
     public ResponseEntity<List<OfferDTO>> getOffersByTechnology (@PathVariable String technology) {
-        List <OfferDTO> offerDTOSByTechnology = mapStructMapper.toOfferDTOs(offerService.findOffersByTechnology(technology));
+        List <OfferDTO> offerDTOSByTechnology = MapStructMapper.INSTANCE.toOfferDTOs(offerService.findOffersByTechnology(technology));
         return ResponseEntity.ok(offerDTOSByTechnology);
     }
 
     @GetMapping(value="/getAllOffers")
     public ResponseEntity<List<OfferDTO>> getAllOffers () {
-        List<OfferDTO> offerDTOs = mapStructMapper.toOfferDTOs(offerService.findAllOffers());
+        List<OfferDTO> offerDTOs = MapStructMapper.INSTANCE.toOfferDTOs(offerService.findAllOffers());
         return ResponseEntity.ok(offerDTOs);
     }
 

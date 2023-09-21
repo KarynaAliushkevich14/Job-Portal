@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString
+//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
@@ -41,7 +41,7 @@ public class Offer {
     )
     private String offerName;
     @ManyToMany
-    @JoinTable(
+    @JoinTable( // join table указывает на то что это кросс таблица; join column что мы связываем fk в этой таблице с другой таблицей.
             name = "offer_tech",
             joinColumns = @JoinColumn(name = "fk_offer"),
             inverseJoinColumns = @JoinColumn(name = "fk_technology"))
